@@ -1,184 +1,290 @@
-import React, { Children } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { BiSolidOffer } from "react-icons/bi";
 import { CgChevronDown } from "react-icons/cg";
 import { CiLocationOn, CiShoppingCart } from "react-icons/ci";
+import { FaChevronRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
+import { IoMdMenu } from "react-icons/io";
 import { TbTruckDelivery, TbUser } from "react-icons/tb";
 import { Link } from "react-router";
 
 const Navbar = () => {
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const sidebarRef = useRef();
+
+  // outside click close
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+        setSidebarOpen(false);
+      }
+    };
+
+    if (sidebarOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [sidebarOpen]);
+
   const categories = [
     {
       title: "Groceries",
-      to: "",
-      Children: ["Milk", "Bread", "Rice", "Apples", "Eggs"],
+      to: "/",
+      Children: [
+        { title: "Milk", to: "" },
+        { title: "Bread", to: "" },
+        { title: "Rice", to: "" },
+        { title: "Apples", to: "" },
+        { title: "Eggs", to: "" },
+      ],
     },
     {
       title: "Premium Fruits",
       to: "",
-      Children: ["Apple", "Banana", "Orange", "Mango", "Grapes"],
+      Children: [
+        { title: "Apple", to: "" },
+        { title: "Banana", to: "" },
+        { title: "Orange", to: "" },
+        { title: "Mango", to: "" },
+        { title: "Grapes", to: "" },
+      ],
     },
     {
       title: "Home & Kitchen",
       to: "",
       Children: [
-        "Cookware Set",
-        "Non-Stick Frying Pan",
-        "Electric Kettle",
-        "Dining Table",
-        "Kitchen Storage Container",
+        { title: "Cookware Set", to: "" },
+        { title: "Non-Stick Frying Pan", to: "" },
+        { title: "Electric Kettle", to: "" },
+        { title: "Dining Table", to: "" },
+        { title: "Kitchen Storage Container", to: "" },
       ],
     },
     {
       title: "Fashion",
       to: "",
-      Children: ["T-Shirt", "Jeans", "Sneakers", "Jacket", "Handbag"],
+      Children: [
+        { title: "T-Shirt", to: "" },
+        { title: "Jeans", to: "" },
+        { title: "Sneakers", to: "" },
+        { title: "Jacket", to: "" },
+        { title: "Handbag", to: "" },
+      ],
     },
     {
       title: "Electronics",
       to: "",
       Children: [
-        "Smartphone",
-        "Laptop",
-        "Headphones",
-        "Smartwatch",
-        "Bluetooth Speaker",
+        { title: "Smartphone", to: "" },
+        { title: "Laptop", to: "" },
+        { title: "Headphones", to: "" },
+        { title: "Smartwatch", to: "" },
+        { title: "Bluetooth Speaker", to: "" },
       ],
-    },
-    {
-      title: "Beauty",
-      to: "",
-      Children: ["Lipstick", "Foundation", "Mascara", "Perfume", "Face Cream"],
     },
     {
       title: "Home Improvement",
       to: "",
       Children: [
-        "Drill Machine",
-        "Hammer",
-        "Screwdriver Set",
-        "Wall Paint",
-        "LED Light Bulb",
+        { title: "Drill Machine", to: "" },
+        { title: "Hammer", to: "" },
+        { title: "Screwdriver Set", to: "" },
+        { title: "Wall Paint", to: "" },
+        { title: "LED Light Bulb", to: "" },
       ],
     },
     {
       title: "Sports, Toys & Luggage",
       to: "",
       Children: [
-        "Football",
-        "Cricket Bat",
-        "Teddy Bear",
-        "Remote Control Car",
-        "Travel Suitcase",
+        { title: "Football", to: "" },
+        { title: "Cricket Bat", to: "" },
+        { title: "Teddy Bear", to: "" },
+        { title: "Remote Control Car", to: "" },
+        { title: "Travel Suitcase", to: "" },
       ],
     },
   ];
+
   return (
     <>
-      {/* ========================================================
-                          Top_bar Start
-   ===========================================================*/}
-      <div className="bg-[#F5F5F5] h-auto sm:h-12 flex items-center text-sm py-2 sm:0">
-        <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0">
-          {/*============= Left Side =============== */}
-          <span className="font-sm text-[#666666]">
-            Welcome to worldwide Megamart!
-          </span>
-
-          {/*============= Right Side =============== */}
-          <ul className="flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-8 font-sm">
-            <li className="flex items-center gap-1 text-[#666666] cursor-pointer hover:text-[#008ECC] transition">
-              <CiLocationOn />
-              Deliver to 423651
-            </li>
-
-            <li className="flex items-center gap-1 text-[#666666] cursor-pointer hover:text-[#008ECC] transition">
-              <TbTruckDelivery />
-              Track your order
-            </li>
-
-            <li className="flex items-center gap-1 text-[#666666] cursor-pointer hover:text-[#008ECC] transition">
-              <BiSolidOffer />
-              All Offers
-            </li>
-          </ul>
+      {/* TOP_BAR */}
+      <div className="bg-secondary py-2 text-sm">
+        <div className="container flex justify-between">
+          <span>Welcome to Megamart!</span>
+          <div className="flex gap-4">
+            <span className="flex items-center gap-1">
+              <CiLocationOn /> Deliver
+            </span>
+            <span className="flex items-center gap-1">
+              <TbTruckDelivery /> Track
+            </span>
+            <span className="flex items-center gap-1">
+              <BiSolidOffer /> Offers
+            </span>
+          </div>
         </div>
       </div>
-      {/* ========================================================
-                          Top_bar end
-   ===========================================================*/}
-      {/* ========================================================
-                          Nav_Bar Start
-   ===========================================================*/}
-      <nav className="border-b border-[#EDEDED] py-5">
-  <div className="container mx-auto px-4 flex flex-col lg:flex-row justify-between items-center gap-4 lg:gap-0">
-          {/* =================Logo================ */}
+
+      {/* NAVBAR */}
+      <nav className="border-b border-secondary py-4">
+        <div className="container flex justify-between items-center">
+          {/* Mobile menu */}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="text-2xl md:hidden"
+          >
+            <IoMdMenu />
+          </button>
+          {/* Logo */}
           <Link to="/">
-            <img src="/logo.png" alt="logo" className="w-28 sm:w-32 md:w-auto" />
+            <img src="/logo.png" className="w-28" />
           </Link>
-            {/* ===================Search_bar============== */}
-       <div className="flex gap-2.5 items-center p-4 bg-[#F3F9FB] rounded-xl w-full lg:max-w-lg">
-            <FiSearch className="text-brand text-2xl" />
+          {/* Search Bar */} 
+          <div className="hidden sm:flex items-center gap-2 bg-[#F3F9FB] rounded-xl px-3 py-2 w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg mx-4">
+             
+            <FiSearch className="text-brand text-lg md:text-xl" /> 
             <input
-              className="w-full outline-0 text-base text-primary "
+              className="w-full outline-none bg-transparent text-sm md:text-base text-primary"
               type="text"
               placeholder="Search essentials, groceries and more..."
-            />
+            /> 
           </div>
-            {/*================= Sign up ================*/}
-         <div className="flex gap-6 sm:gap-10">
+          {/* Right Side */} 
+          <div className="flex items-center gap-4 sm:gap-6 lg:gap-10">
+             
+            {/* Sign In */} 
             <Link
-              className="flex items-center gap-1.5 text-base font-bold text-primary relative after:absolute after:h-full after:w-0.5 after:bg-primary/40 after:top-0 after:-right-5 "
+              className="hidden sm:flex items-center gap-2 text-sm md:text-base font-semibold text-primary relative after:absolute after:h-full after:w-[1px] after:bg-primary/40 after:top-0 after:-right-3 lg:after:-right-5"
               to="/SignIn"
             >
-              {" "}
-              <TbUser className="text-xl text-brand" />
-              Sign Up/Sign In
-            </Link>
-            {/*=================== Cart============= */}
+               
+              <TbUser className="text-lg md:text-xl text-brand" /> 
+              <span className="hidden lg:block">Sign Up/Sign In</span> 
+            </Link> 
+            {/* Cart */} 
             <Link
-              className="flex items-center gap-1.5 text-lg font-bold text-primary"
+              className="flex items-center gap-1 text-base md:text-lg font-semibold text-primary"
               to="/Cart"
             >
-              {" "}
-              <CiShoppingCart className="text-2xl text-brand" />
-              Cart
-            </Link>
+               
+              <CiShoppingCart className="text-xl md:text-2xl text-brand" />
+              <span className="hidden lg:block ">Cart</span>
+            </Link> 
+          </div> 
+        </div>
+
+        {/* Mobile_search */}
+        <div className="md:hidden px-4 mt-3">
+          <div className="flex items-center bg-[#F3F9FB] px-3 py-2 rounded-xl">
+            <FiSearch />
+            <input
+              className="bg-transparent outline-none ml-2 w-full"
+              placeholder="Search..."
+            />
           </div>
         </div>
       </nav>
-      {/* ========================================================
-                          Nav_Bar end
-   ===========================================================*/}
-      {/* ========================================================
-                          Product_Categories Start
-   ===========================================================*/}
-      <div className="py-4 border-b border-[#EDEDED]">
-        <div className="container flex gap-2">
-          {categories.map((item) => (
-            <div key={item.title} className="relative group">
-              <Link className="bg-base inline-block hover:bg-brand py-2 px-3  font-medium text-base rounded-3xl text-[#222222]  hover:text-theme ">
-                <div className="flex items-center gap-1">
-                  <p>{item.title}</p>
-                  <CgChevronDown className="text-2xl" />
-                </div>
+
+      {/* DESKTOP_MENU */}
+   <div className="border-b border-secondary">
+  <div className="container hidden md:flex gap-4 px-4 py-5 text-base font-semibold">
+    {categories.map((item) => (
+      <div key={item.title} className="relative group">
+        {/* Button */}
+        <button
+          className="lg:px-4 lg:py-2 md:p-1 rounded-full hover:bg-brand flex items-center gap-2 text-[15px]"
+        >
+          {item.title}
+          {item.Children && (
+            <CgChevronDown className="transition group-hover:rotate-180" />
+          )}
+        </button>
+
+        {/* Dropdown_Menu */}
+        {item.Children && (
+          <ul className="absolute top-full left-0 bg-white shadow-lg rounded-xl w-52 mt-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            {item.Children.map((child) => (
+              <li key={child.title}>
+                <Link className="block rounded-xl px-4 py-2 hover:bg-gray-100">
+                  {child.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
+
+      {/* MOBILE_SIDEBAR */}
+{sidebarOpen && (
+  <div className="fixed inset-0 bg-black/40 z-50">
+    <div ref={sidebarRef} className="w-4/5 sm:w-3/5 bg-white h-full p-4">
+      <div className="flex justify-between mb-4">
+        <h2 className="font-bold">Menu</h2>
+        <button onClick={() => setSidebarOpen(false)}>✕</button>
+      </div>
+
+      <ul className="space-y-3">
+        {categories.map((item, index) => (
+          <li key={item.title}>
+            <div className="flex justify-between items-center">
+              {/* Title as Link */}
+              <Link href={item.url} className="flex-1">
+                {item.title}
               </Link>
-              <ul className="absolute top-full left-0 transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-48 rounded-2xl space-y-2 bg-theme shadow text-base text-primary font-medium ">
+
+              {/* Chevron_submenu */}
+              {item.Children && (
+                <button
+                  onClick={() =>
+                    setActiveIndex(activeIndex === index ? null : index)
+                  }
+                  className="ml-2"
+                >
+                  <FaChevronRight
+                    className={`transition-transform duration-300 ${
+                      activeIndex === index ? "rotate-90" : ""
+                    }`}
+                  />
+                </button>
+              )}
+            </div>
+
+            {/* Submenu_smooth_slide */}
+            {item.Children && (
+              <ul
+                className={`pl-4 mt-2 space-y-1 overflow-hidden transition-all duration-300 ${
+                  activeIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                }`}
+              >
                 {item.Children.map((child) => (
-                  <li key={child}>
-                    <Link className="p-2 rounded hover:bg-brand hover:text-theme block">
-                      {child}
+                  <li key={child.title}>
+                    <Link href={child.to} className="text-sm text-gray-600">
+                      {child.title}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* ========================================================
-                          Product_Categories end
-   ===========================================================*/}
+            )}
+          </li>
+        ))}
+      </ul>
+      {/* Sign In */} 
+           <div className="mt-15 py-8 border-t border-gray-400"> <Link
+              className=" sm:flex items-center gap-2 text-lg font-bold text-primary"
+              to="/SignIn"
+            > Sign Up/Sign In
+            </Link> </div>
+    </div>
+  </div>
+)}
     </>
   );
 };
