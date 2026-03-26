@@ -5,6 +5,7 @@ import CategoryPanel from "./CategoryPanel";
 import Loading from "../ui/Loading";
 import { useFetchProductsQuery } from "../../services/Api";
 
+
 const ProductList = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");

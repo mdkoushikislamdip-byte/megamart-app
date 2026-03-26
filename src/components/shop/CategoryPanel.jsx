@@ -1,6 +1,10 @@
 import { Link } from "react-router";
 import { FaChevronRight } from "react-icons/fa";
-import { useFetchCategoriesQuery } from "../../services/Api"
+import { useFetchCategoriesQuery } from "../../services/Api";
+
+
+
+
 const CategoryPanel = () => {
   const { data: categoriesList, isLoading: fetching } =
     useFetchCategoriesQuery();
