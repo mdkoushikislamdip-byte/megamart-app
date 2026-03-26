@@ -4,7 +4,6 @@ import { Link } from "react-router";
 import Productcards from "../ui/ProductCards";
 import { useFetchProductsQuery } from "../../services/Api";
 
-
 const BestDeals = () => {
   const { data, isLoading } = useFetchProductsQuery({
     limit: 6,
@@ -22,6 +21,7 @@ const BestDeals = () => {
   }
 
   const products = data?.products || []; 
+
   return (
     <section className="py-10 md:py-16 bg-gray-50">
       <div className="container mx-auto px-4">

@@ -77,7 +77,7 @@ const Navbar = () => {
           </Link>
 
           {/* Search */}
-          <div className="hidden sm:flex items-center gap-2 bg-[#F3F9FB] rounded-xl px-3 py-2 w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg mx-4">
+          <div className="hidden sm:flex items-center gap-2 bg-third rounded-xl px-3 py-2 w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg mx-4">
             <FiSearch className="text-brand text-lg md:text-xl" />
             <input
               className="w-full outline-none bg-transparent text-sm md:text-base text-primary"

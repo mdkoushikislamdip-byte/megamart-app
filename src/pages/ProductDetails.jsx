@@ -1,102 +1,37 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router"; // ✅ add useNavigate
-import Slider from "react-slick";
-import { FiMinus, FiPlus } from "react-icons/fi";
-import { BsWhatsapp } from "react-icons/bs";
-import { TbTruckDelivery } from "react-icons/tb";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useFetchProductByIdQuery } from "../services/Api";
+import React, { useState } from "react";
+import { useParams, Link } from "react-router";
 
-
+const products = Array.from({ length: 100 }, (_, i) => ({
+  id: i + 1,
+  name: `Galaxy Model ${i + 1}`,
+  gallery: [
+    "/Galaxy M53.png",
+    "/Galaxy M53-2.png",
+    "/Galaxy M53-3.png",
+    "/Galaxy M53-4.png",
+  ], // multiple images for slider
+  price: 10000 + i * 500,
+  discountedPrice: 9000 + i * 400,
+  discount: Math.floor(Math.random() * 50),
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt consectetur, nisi nisl aliquam nunc, sit amet lacinia orci nulla at velit. Perfect for daily use.",
+}));
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); // 
-  const { data, isLoading, isError } = useFetchProductByIdQuery(id);
+  const product = products.find((p) => p.id === parseInt(id));
+  const [mainImgIndex, setMainImgIndex] = useState(0);
 
-  const sliderMain = useRef(null);
-  const sliderThumb = useRef(null);
-  const [navMain, setNavMain] = useState(null);
-  const [navThumb, setNavThumb] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [zoomedImage, setZoomedImage] = useState(null);
+  if (!product) return <p className="text-center mt-10">Product not found!</p>;
 
-  useEffect(() => {
-    setNavMain(sliderMain.current);
-    setNavThumb(sliderThumb.current);
-  }, [data]);
-
-  const increaseQty = () => setQuantity((q) => q + 1);
-  const decreaseQty = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
-
-  const handleAddToCart = () => {
-    if (!data) return;
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const exist = existingCart.find((item) => item.id === data.id);
-
-    if (exist) {
-      const updatedCart = existingCart.map((item) =>
-        item.id === data.id
-          ? {
-              ...item,
-              qty: item.qty + quantity,
-              total: item.price * (item.qty + quantity),
-              discountedTotal:
-                item.price * (item.qty + quantity) -
-                (item.price * (item.qty + quantity) * (item.discountPercentage || 0)) / 100,
-            }
-          : item
-      );
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      const newItem = {
-        id: data.id,
-        name: data.title,
-        price: data.price,
-        qty: quantity,
-        image: data.images[0] || "/placeholder.png",
-        discountPercentage: data.discountPercentage || 0,
-        total: data.price * quantity,
-        discountedTotal:
-          data.price * quantity -
-          (data.price * quantity * (data.discountPercentage || 0)) / 100,
-      };
-      localStorage.setItem("cart", JSON.stringify([...existingCart, newItem]));
-    }
-
-    window.dispatchEvent(new CustomEvent("cartUpdated"));
-    toast.success(`${data.title} successfully added to cart!`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
+  const nextImage = () => {
+    setMainImgIndex((prev) => (prev + 1) % product.gallery.length);
   };
 
-  if (isLoading) return <p className="text-center py-20">Loading...</p>;
-  if (isError) return <p className="text-center py-20 text-red-500">Failed to load product</p>;
-
-  const mainSettings = {
-    asNavFor: navThumb,
-    ref: sliderMain,
-    arrows: false,
-    fade: true,
-    infinite: true,
-  };
-
-  const thumbSettings = {
-    asNavFor: navMain,
-    ref: sliderThumb,
-    slidesToShow: 4,
-    swipeToSlide: true,
-    focusOnSelect: true,
-    arrows: false,
-    infinite: true,
-    centerMode: true,
-    centerPadding: "0px",
+  const prevImage = () => {
+    setMainImgIndex(
+      (prev) => (prev - 1 + product.gallery.length) % product.gallery.length,
+    );
   };
 
   return (

@@ -3,8 +3,6 @@ import { Link } from "react-router";
 import { BiChevronRight } from "react-icons/bi";
 import { useFetchProductsQuery } from "../../services/Api";
 
-
-
 const DailyEssentials = () => {
   const { data, isLoading, isError, error } = useFetchProductsQuery({
     limit: 7,
