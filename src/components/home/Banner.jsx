@@ -14,7 +14,7 @@ const Banner = () => {
     prevArrow: <PrevArrow />,
     appendDots: (dots) => (
       <div>
-        <ul className="flex gap-2 absolute bottom-3 md:bottom-10 left-10 md:left-24">
+        <ul className="hidden md:flex gap-2 absolute bottom-3 md:bottom-10 left-10 md:left-24">
           {" "}
           {dots}{" "}
         </ul>
