@@ -5,8 +5,6 @@ import App from './App.jsx'
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { AppAPI } from './services/Api.js';
 
-
-
 createRoot(document.getElementById('root')).render(
   <ApiProvider api ={AppAPI}>
     <App />

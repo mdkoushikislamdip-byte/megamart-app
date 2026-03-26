@@ -20,7 +20,7 @@ const BestDeals = () => {
     );
   }
 
-  const products = data?.products || []; // ✅ safe fallback
+  const products = data?.products || []; 
 
   return (
     <section className="py-10 md:py-16 bg-gray-50">
