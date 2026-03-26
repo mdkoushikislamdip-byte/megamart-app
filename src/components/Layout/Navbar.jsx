@@ -5,7 +5,11 @@ import { FiSearch } from "react-icons/fi";
 import { IoMdMenu } from "react-icons/io";
 import { TbTruckDelivery, TbUser } from "react-icons/tb";
 import { Link, useNavigate } from "react-router";
+<<<<<<< HEAD
 import { useFetchCategoriesQuery } from "../../services/Api";
+=======
+import { useFetchCategoriesQuery } from "../../Services/Api";
+>>>>>>> 90ace7a (fix: Api.js path issue)
 
 const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

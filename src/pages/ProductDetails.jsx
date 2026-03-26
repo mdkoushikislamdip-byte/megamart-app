@@ -6,7 +6,11 @@ import { BsWhatsapp } from "react-icons/bs";
 import { TbTruckDelivery } from "react-icons/tb";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+<<<<<<< HEAD
 import { useFetchProductByIdQuery } from "../services/Api";
+=======
+import { useFetchProductByIdQuery } from "../Services/Api";
+>>>>>>> 90ace7a (fix: Api.js path issue)
 
 const ProductDetails = () => {
   const { id } = useParams();

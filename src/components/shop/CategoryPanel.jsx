@@ -1,6 +1,10 @@
 import { Link } from "react-router";
 import { FaChevronRight } from "react-icons/fa";
+<<<<<<< HEAD
 import { useFetchCategoriesQuery } from "../../services/Api";
+=======
+import { useFetchCategoriesQuery } from "../../Services/Api";
+>>>>>>> 90ace7a (fix: Api.js path issue)
 
 const CategoryPanel = () => {
   const { data: categoriesList, isLoading: fetching } =

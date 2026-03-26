@@ -3,7 +3,11 @@ import { useSearchParams } from "react-router";
 import ProductCards from "../ui/ProductCards";
 import CategoryPanel from "./CategoryPanel";
 import Loading from "../ui/Loading";
+<<<<<<< HEAD
 import { useFetchProductsQuery } from "../../services/Api";
+=======
+import { useFetchProductsQuery } from "../../Services/Api";
+>>>>>>> 90ace7a (fix: Api.js path issue)
 
 const ProductList = () => {
   const [searchParams] = useSearchParams();

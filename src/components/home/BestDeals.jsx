@@ -2,7 +2,11 @@ import React from "react";
 import { BiChevronRight } from "react-icons/bi";
 import { Link } from "react-router";
 import Productcards from "../ui/ProductCards";
+<<<<<<< HEAD
 import { useFetchProductsQuery } from "../../services/Api";
+=======
+import { useFetchProductsQuery } from "../../Services/Api";
+>>>>>>> 90ace7a (fix: Api.js path issue)
 
 const BestDeals = () => {
   const { data, isLoading } = useFetchProductsQuery({

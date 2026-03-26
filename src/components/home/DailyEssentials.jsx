@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router";
 import { BiChevronRight } from "react-icons/bi";
+<<<<<<< HEAD
 import { useFetchProductsQuery } from "../../services/Api";
+=======
+import { useFetchProductsQuery } from "../../Services/Api";
+>>>>>>> 90ace7a (fix: Api.js path issue)
 
 const DailyEssentials = () => {
   const { data, isLoading, isError, error } = useFetchProductsQuery({
