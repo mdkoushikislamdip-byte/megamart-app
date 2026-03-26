@@ -3,75 +3,82 @@ import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-brand text-white pt-12 pb-6 relative overflow-hidden">
-      {/* Container */}
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* Left Section */}
+    <footer className="bg-brand text-white py-10">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        {/* Left */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">MegaMart</h2>
+          <h2 className="text-xl font-semibold mb-3">MegaMart</h2>
 
-          <p className="font-semibold mb-2">Contact Us</p>
+          <div className="space-y-2 text-sm text-white/80">
+            <div className="flex items-center gap-2">
+              <FaWhatsapp className="text-green-400" />
+              <span>+1 202-918-2132</span>
+            </div>
 
-          <div className="flex items-center gap-2 text-sm mb-2">
-            <FaWhatsapp />
-            <span>Whats App</span>
+            <div className="flex items-center gap-2">
+              <FaPhoneAlt className="text-blue-400" />
+              <span>+1 202-918-2132</span>
+            </div>
           </div>
-          <p className="text-sm ml-6 mb-3">+1 202-918-2132</p>
 
-          <div className="flex items-center gap-2 text-sm mb-2">
-            <FaPhoneAlt />
-            <span>Call Us</span>
-          </div>
-          <p className="text-sm ml-6 mb-4">+1 202-918-2132</p>
-
-          <p className="font-semibold mb-3">Download App</p>
-
-          <div className="flex gap-3">
-            <img src="/appstore.png" alt="App Store" className="h-10" />
-            <img src="/playstore.png" alt="Google Play" className="h-10" />
+          <div className="flex gap-3 mt-4">
+            <img src="/appstore.png" alt="App Store" className="h-9 opacity-80 hover:opacity-100 transition" />
+            <img src="/playstore.png" alt="Google Play" className="h-9 opacity-80 hover:opacity-100 transition" />
           </div>
         </div>
 
-        {/* Middle Section */}
+        {/* Middle */}
         <div>
-          <h3 className="font-semibold mb-4 border-b w-fit">
-            Most Popular Categories
+          <h3 className="text-sm font-semibold mb-3 text-white/90">
+            Categories
           </h3>
-          <ul className="space-y-2 text-sm list-disc">
-            <li>Staples</li>
-            <li>Beverages</li>
-            <li>Personal Care</li>
-            <li>Home Care</li>
-            <li>Baby Care</li>
-            <li>Vegetables & Fruits</li>
-            <li>Snacks & Foods</li>
-            <li>Dairy & Bakery</li>
+          <ul className="space-y-1 text-sm text-white/70">
+            {[
+              "Staples",
+              "Beverages",
+              "Personal Care",
+              "Home Care",
+              "Baby Care",
+            ].map((item, i) => (
+              <li
+                key={i}
+                className="hover:text-white transition cursor-pointer"
+              >
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
 
-        {/* Right Section */}
+        {/* Right */}
         <div>
-          <h3 className="font-semibold mb-4 border-b w-fit">
-            Customer Services
+          <h3 className="text-sm font-semibold mb-3 text-white/90">
+            Support
           </h3>
-          <ul className="space-y-2 text-sm list-disc">
-            <li>About Us</li>
-            <li>Terms & Conditions</li>
-            <li>FAQ</li>
-            <li>Privacy Policy</li>
-            <li>E-waste Policy</li>
-            <li>Cancellation & Return Policy</li>
+          <ul className="space-y-1 text-sm text-white/70">
+            {[
+              "About Us",
+              "Terms",
+              "FAQ",
+              "Privacy",
+              "Returns",
+            ].map((item, i) => (
+              <li
+                key={i}
+                className="hover:text-white transition cursor-pointer"
+              >
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
 
-      {/* Bottom Line */}
-      <div className="border-t border-white/30 mt-10 pt-4 text-center text-sm">
-        © {new Date().getFullYear()} All rights reserved. Reliance Retail Ltd.
+      {/* Bottom */}
+      <div className="mt-8 text-center text-xs text-white/60 border-t border-white/10 pt-4">
+        © {new Date().getFullYear()} MegaMart. All rights reserved.
       </div>
-
-      {/* Background Circle Effect */}
-      <div className="absolute right-0 top-0 w-72 h-72 bg-white/10 rounded-full blur-2xl"></div>
     </footer>
   );
 };
