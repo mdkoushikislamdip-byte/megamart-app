@@ -1,44 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSearchParams } from "react-router";
 import ProductCards from "../ui/ProductCards";
-import { useGetproductsQuery } from "../../services/api";
-
-const products = Array.from({ length: 100 }, (_, i) => ({
-  id: i + 1,
-  name: `Galaxy Model ${i + 1}`,
-  img: "/Galaxy M53.png", // same image use korte paro
-  price: 10000 + i * 500,
-  discountedPrice: 9000 + i * 400,
-  discount: Math.floor(Math.random() * 50), // random discount
-}));
+import CategoryPanel from "./CategoryPanel";
+import Loading from "../ui/Loading";
+import { useFetchProductsQuery } from "../../services/Api";
 
 const ProductList = () => {
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
 
-  console.log(data)
+  const [limit, setLimit] = useState(20);
+  const [skip, setSkip] = useState(0);
+
+  const { data, isLoading } = useFetchProductsQuery({
+    limit,
+    skip,
+    category,
+  });
+
   return (
-   <section className="mt-10 md:mt-30">
-     <div className="container">
-       <div className="mb-5 flex justify-between">
-          <p>
-            Showing <span className="font-bold">(100)</span>
-          </p>
-          <div className="flex items-center gap-4">
-            <p>Displaying 1-10 of 100 Products</p>
-            <select className="py-2 px-4 border rounded-2xl">
-              <option value="">10</option>
-              <option value="">20</option>
-              <option value="">30</option>
-              <option value="">40</option>
-              <option value="">50</option>
-            </select>
+    <section className="bg-gray-50 py-10 md:py-16">
+      <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-6">
+        {/* Sidebar */}
+        <div className="lg:w-[260px]">
+          <CategoryPanel />
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1">
+          {/* Header Card */}
+          <div className="bg-white rounded-2xl shadow-sm p-4 md:p-6 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            {/* Left */}
+            <div>
+              <h2 className="text-lg md:text-xl font-bold text-primary capitalize">
+                {category ? category : "All Products"}
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Showing {data?.products?.length || 0} items
+              </p>
             </div>
+
+            {/* Right */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-600">Show:</span>
+
+              <select
+                onChange={(e) => setLimit(Number(e.target.value))}
+                value={limit}
+                className="rounded-xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand"
+              >
+                <option value={20}>20</option>
+                <option value={30}>30</option>
+                <option value={40}>40</option>
+                <option value={50}>50</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Product Grid */}
+          {isLoading ? (
+            <div className="flex justify-center py-20">
+              <Loading />
+            </div>
+          ) : (
+            <div className="grid gap-5 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {data?.products?.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white rounded-2xl shadow-sm hover:shadow-md transition duration-300 p-2"
+                >
+                  <ProductCards data={item} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {products.map((item) => (
-        <ProductCards key={item.id} product={item} />
-      ))}
-    </div>
-    </div>
-   </section>
+    </section>
   );
 };
 

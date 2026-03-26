@@ -4,7 +4,10 @@ import Home from './pages/Home'
 import Layout from './components/Layout'
 import Shop from './pages/Shop'
 import ProductDetails from './pages/ProductDetails'
-import Registration from './pages/Registration'
+import Cart from './pages/Cart'
+import Profile from './pages/Profile'
+import Auth from './pages/Auth'
+
 
 
 
@@ -13,11 +16,13 @@ const App = () => {
   return (
      <BrowserRouter>
       <Routes>
-        <Route path='/registration' element={<Registration />} />
+        <Route path='/auth' element={<Auth />} />
         <Route path="/" element ={<Layout />}>
         <Route index element={<Home />} />
         <Route path='/shop' element={<Shop/>} />
         <Route path='/shop/:id' element={<ProductDetails/>} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/cart" element={<Cart />} />
          </ Route>
       </Routes>
    </BrowserRouter>
@@ -25,4 +30,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;

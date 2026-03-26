@@ -6,7 +6,6 @@ import Category from "../components/home/Category";
 import TopElectronicsBrand from "../components/home/TopElectronicsBrand";
 import DailyEssentials from "../components/home/DailyEssentials";
 
-
 const Home = () => {
   return (
     <div>
