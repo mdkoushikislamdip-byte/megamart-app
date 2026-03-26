@@ -1,61 +1,61 @@
+import React from "react";
 import { BiChevronRight } from "react-icons/bi";
+import { Link } from "react-router";
 
-const categories = [
-  { name: "Mobile", img: "/phone.png" },
-  { name: "Cosmetics", img: "/cosmetics.png" },
-  { name: "Electronics", img: "/electronics.png" },
-  { name: "Furniture", img: "/furniture.png" },
-  { name: "Watches", img: "/watch.png" },
-  { name: "Decor", img: "/decor.png" },
-  { name: "Accessories", img: "/accessories.png" },
-];
+const Categories = () => {
+  const categorie = [
+    { image: "/phone.png", title: "Mobile" },
+    { image: "/cosmetics.png", title: "cosmetics" },
+    { image: "/electronics.png", title: "Electronics" },
+    { image: "/furniture.png", title: "Furniture" },
+    { image: "/watch.png", title: "Watches" },
+    { image: "/decor.png", title: "Decor" },
+    { image: "/accessories.png", title: "Accessories" },
+  ];
 
-const Category = () => {
   return (
-    <div className="mt-2 md:mt-10 py-6 md:py-10">
+    <section className="pb-28">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div
-          className="group flex justify-between items-center mb-6 pb-4 border-b border-primary/30 relative 
-after:absolute after:w-96 after:h-1 after:left-0 after:bottom-0 after:rounded-full after:bg-brand 
-hover:border-brand transition-all duration-300 
-after:transition-all after:duration-300 group-hover:after:bg-brand"
-        >
-          {" "}
-          <h2 className="text-base md:text-xl font-semibold">
-            Shop From <span className="text-brand">Top Categories</span>
+        <div className="mb-10 flex justify-between items-center pb-4 border-b border-primary/30 relative after:absolute after:w-full after:max-w-96 after:h-1 after:bg-brand after:left-0 after:bottom-0 after:rounded-full">
+          <h2 className="heading text-lg md:text-2xl">
+            Shop From{" "}
+            <span className="font-bold text-brand">Top Categories</span>
           </h2>
-          <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-500 transition">
-            View All <BiChevronRight className="text-2xl text-brand" />
-          </button>
+          <Link
+            to="/shop"
+            className="flex items-center text-md md:text-xl text-nowrap"
+          >
+            View all
+            <BiChevronRight className="text-2xl text-brand" />
+          </Link>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-4 md:gap-6">
-          {categories.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center group cursor-pointer transition-all duration-300"
-            >
-              {/* Circle Image */}
-              <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full border-2 border-transparent group-hover:border-blue-400 overflow-hidden bg-white flex items-center justify-center transition-all duration-300 group-hover:shadow-lg group-hover:scale-105">
-                <img
-                  src={item.img}
-                  alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                />
+        {/* Categories Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+          {categorie.map((item, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full bg-secondary flex justify-center items-center overflow-hidden border border-transparent hover:shadow-xl hover:border-brand/40 transition-all duration-300 ease-in-out transform hover:scale-105">
+                <Link
+                  to={`/shop?category=${item.title.toLowerCase()}`}
+                  className="w-full h-full flex justify-center items-center"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-3/4 h-3/4 object-contain rounded-full"
+                  />
+                </Link>
               </div>
-
-              {/* Title */}
-              <p className="mt-2 text-xs md:text-sm text-gray-700 text-center transition-all duration-300 group-hover:text-blue-500 group-hover:font-medium">
-                {item.name}
+              <p className="mt-3 text-center text-base font-medium capitalize">
+                {item.title}
               </p>
             </div>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default Category;
+export default Categories;

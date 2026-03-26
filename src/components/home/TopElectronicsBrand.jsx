@@ -21,7 +21,7 @@ const TopElectronicsBrand = () => {
       </div>
     ),
     customPaging: (i) => (
-      <div className="w-2 md:w-4 h-2 md:h-4 bg-black rounded-full"></div>
+      <div className="w-2 md:w-4 h-2 md:h-4 bg-gray-100 rounded-full"></div>
     ),
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3 } },
@@ -31,7 +31,7 @@ const TopElectronicsBrand = () => {
   };
 
   return (
-    <section className="bg-white mt-2 md:mt-25 relative">
+    <section className="bg-white mt-2 md:mt-20 relative">
       <div className="container mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6 pb-4 border-b border-primary/30 relative after:absolute after:w-96 after:h-1 after:left-0 after:bottom-0 after:rounded-full after:bg-brand">

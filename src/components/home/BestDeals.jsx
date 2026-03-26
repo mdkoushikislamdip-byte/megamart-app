@@ -1,74 +1,67 @@
 import React from "react";
 import { BiChevronRight } from "react-icons/bi";
-import ProductCards from "../ui/ProductCards";
-
-
-const products = [
-  {
-    id: 1,
-    name: "Galaxy S22 Ultra",
-    img: "/Galaxy S22 Ultra.png",
-    price: 174999,
-    discountedPrice: 132999,
-    discount: 56,
-  },
-  {
-    id: 2,
-    name: "Galaxy M13 (4GB | 64 GB)",
-    img: "/Galaxy M13.png",
-    price: 10499,
-    discountedPrice: 10499,
-    discount: 0,
-  },
-  {
-    id: 3,
-    name: "Galaxy M33 (4GB | 64 GB)",
-    img: "/Galaxy M33.png",
-    price: 14999,
-    discountedPrice: 14999,
-    discount: 0,
-  },
-  {
-    id: 4,
-    name: "Galaxy M53 (4GB | 64 GB)",
-    img: "/Galaxy M53.png",
-    price: 16999,
-    discountedPrice: 14999,
-    discount: 56,
-  },
-  {
-    id: 5,
-    name: "Galaxy M63 (6GB | 128 GB)",
-    img: "/Galaxy M63.png",
-    price: 85999,
-    discountedPrice: 67999,
-    discount: 21,
-  },
-];
+import { Link } from "react-router";
+import Productcards from "../ui/ProductCards";
+import { useFetchProductsQuery } from "../../services/Api";
 
 const BestDeals = () => {
+  const { data, isLoading } = useFetchProductsQuery({
+    limit: 6,
+    category: "smartphones",
+  });
+
+  if (isLoading) {
+    return (
+      <section className="py-10 md:py-16">
+        <div className="container mx-auto text-center text-gray-400">
+          Loading best deals...
+        </div>
+      </section>
+    );
+  }
+
+  const products = data?.products || []; 
   return (
-    <section className="container mx-auto mt-8 md:mt-16 py-6 px-4 bg-gray-50 rounded-xl">
-      
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6 pb-4 border-b border-primary/30 relative after:absolute after:w-40 md:after:w-96 after:h-1 after:left-0 after:bottom-0 after:rounded-full after:bg-brand">
-        
-        <h2 className="text-sm md:text-xl font-bold">
-          Grab the best deal on{" "}
-          <span className="text-brand">Smartphones</span>
-        </h2>
+    <section className="py-10 md:py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="mb-8 md:mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-0 pb-3 border-b border-primary/30 relative">
+          <h2 className="text-xl md:text-3xl font-semibold text-primary">
+            Grab the best deals on{" "}
+            <span className="text-brand">Smartphones</span>
+          </h2>
+          <Link
+            to={`/shop?category=smartphones`}
+            className="flex items-center gap-2 text-sm md:text-base font-medium text-brand hover:underline mt-2 md:mt-0"
+          >
+            View All
+            <BiChevronRight className="text-lg md:text-xl" />
+          </Link>
+        </div>
 
-        <button className="flex items-center text-sm text-gray-600 hover:text-blue-500">
-          View All
-          <BiChevronRight className="text-xl text-brand ml-1" />
-        </button>
-      </div>
+        {/* Product Grid Desktop */}
+        <div className="hidden md:grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+          {products.map((item) => (
+            <div
+              key={item.id}
+              className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-3 flex flex-col items-center"
+            >
+              <Productcards data={item} />
+            </div>
+          ))}
+        </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-        {products.map((product) => (
-          <ProductCards key={product.id} product={product} />
-        ))}
+        {/* Mobile / Tablet  */}
+        <div className="md:hidden overflow-x-auto flex gap-4 pb-4">
+          {products.map((item) => (
+            <div
+              key={item.id}
+              className="min-w-[160px] sm:min-w-[200px] bg-white rounded-2xl shadow-md p-3 flex flex-col items-center"
+            >
+              <Productcards data={item} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

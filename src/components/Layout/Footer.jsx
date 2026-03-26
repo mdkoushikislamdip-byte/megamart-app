@@ -4,10 +4,8 @@ import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="bg-brand text-white pt-12 pb-6 relative overflow-hidden">
-      
       {/* Container */}
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-10">
-
         {/* Left Section */}
         <div>
           <h2 className="text-2xl font-bold mb-4">MegaMart</h2>
@@ -36,8 +34,10 @@ const Footer = () => {
 
         {/* Middle Section */}
         <div>
-          <h3 className="font-semibold mb-4">Most Popular Categories</h3>
-          <ul className="space-y-2 text-sm">
+          <h3 className="font-semibold mb-4 border-b w-fit">
+            Most Popular Categories
+          </h3>
+          <ul className="space-y-2 text-sm list-disc">
             <li>Staples</li>
             <li>Beverages</li>
             <li>Personal Care</li>
@@ -51,8 +51,10 @@ const Footer = () => {
 
         {/* Right Section */}
         <div>
-          <h3 className="font-semibold mb-4">Customer Services</h3>
-          <ul className="space-y-2 text-sm">
+          <h3 className="font-semibold mb-4 border-b w-fit">
+            Customer Services
+          </h3>
+          <ul className="space-y-2 text-sm list-disc">
             <li>About Us</li>
             <li>Terms & Conditions</li>
             <li>FAQ</li>
@@ -65,7 +67,7 @@ const Footer = () => {
 
       {/* Bottom Line */}
       <div className="border-t border-white/30 mt-10 pt-4 text-center text-sm">
-        © 2022 All rights reserved. Reliance Retail Ltd.
+        © {new Date().getFullYear()} All rights reserved. Reliance Retail Ltd.
       </div>
 
       {/* Background Circle Effect */}

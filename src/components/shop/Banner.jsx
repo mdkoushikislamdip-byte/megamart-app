@@ -14,10 +14,15 @@ const Banner = () => {
     prevArrow: <PrevArrow />,
     appendDots: (dots) => (
       <div>
-        <ul className="flex gap-2 absolute bottom-3 md:bottom-10 left-10 md:left-24"> {dots} </ul>
+        <ul className="flex gap-2 absolute bottom-3 md:bottom-10 left-10 md:left-24">
+          {" "}
+          {dots}{" "}
+        </ul>
       </div>
     ),
-    customPaging: (i) => <div className="w-2 md:w-4 h-2 md:h-4 bg-theme rounded-full"></div>,
+    customPaging: (i) => (
+      <div className="w-2 md:w-4 h-2 md:h-4 bg-theme rounded-full"></div>
+    ),
   };
   return (
     <section className="bg-">

@@ -1,18 +1,29 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BiSolidOffer } from "react-icons/bi";
-import { CgChevronDown } from "react-icons/cg";
 import { CiLocationOn, CiShoppingCart } from "react-icons/ci";
-import { FaChevronRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { IoMdMenu } from "react-icons/io";
 import { TbTruckDelivery, TbUser } from "react-icons/tb";
-import { Link } from "react-router"; // <-- correct import
+import { Link, useNavigate } from "react-router";
+import { useFetchCategoriesQuery } from "../../services/Api";
 
 const Navbar = () => {
-  const [activeMenu, setActiveMenu] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
   const sidebarRef = useRef();
+  const navigate = useNavigate();
+
+  // API call for categories
+  const { data: categoriesData, isLoading } = useFetchCategoriesQuery();
+
+  // Get logged-in user
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setSidebarOpen(false);
+    navigate("/auth");
+  };
 
   // Outside click close sidebar
   useEffect(() => {
@@ -29,16 +40,6 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [sidebarOpen]);
 
-  const categories = [
-    { title: "Groceries", Children: [{ title: "Milk" }, { title: "Bread" }] },
-    { title: "Premium Fruits", Children: [{ title: "Apple" }, { title: "Banana" }] },
-    { title: "Home & Kitchen", Children: [{ title: "Cookware" }, { title: "Kettle" }] },
-    { title: "Fashion", Children: [{ title: "T-Shirt" }, { title: "Jeans" }] },
-    { title: "Electronics", Children: [{ title: "Smartphone" }, { title: "Laptop" }] },
-    { title: "Home Improvement", Children: [{ title: "Drill" }, { title: "Hammer" }] },
-    { title: "Sports & Toys", Children: [{ title: "Football" }, { title: "Teddy Bear" }] },
-  ];
-
   return (
     <>
       {/* TOP BAR */}
@@ -46,9 +47,15 @@ const Navbar = () => {
         <div className="container flex justify-between">
           <span>Welcome to Megamart!</span>
           <div className="flex gap-4">
-            <span className="flex items-center gap-1"><CiLocationOn /> Deliver</span>
-            <span className="flex items-center gap-1"><TbTruckDelivery /> Track</span>
-            <span className="flex items-center gap-1"><BiSolidOffer /> Offers</span>
+            <span className="flex items-center gap-1">
+              <CiLocationOn /> Deliver
+            </span>
+            <span className="flex items-center gap-1">
+              <TbTruckDelivery /> Track
+            </span>
+            <span className="flex items-center gap-1">
+              <BiSolidOffer /> Offers
+            </span>
           </div>
         </div>
       </div>
@@ -57,12 +64,17 @@ const Navbar = () => {
       <nav className="border-b border-secondary py-4">
         <div className="container flex justify-between items-center">
           {/* Mobile menu */}
-          <button onClick={() => setSidebarOpen(true)} className="text-2xl md:hidden">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="text-2xl md:hidden"
+          >
             <IoMdMenu />
           </button>
 
           {/* Logo */}
-          <Link to="/"><img src="/logo.png" className="w-28" /></Link>
+          <Link to="/">
+            <img src="/logo.png" className="w-28" alt="logo" />
+          </Link>
 
           {/* Search */}
           <div className="hidden sm:flex items-center gap-2 bg-[#F3F9FB] rounded-xl px-3 py-2 w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg mx-4">
@@ -76,15 +88,28 @@ const Navbar = () => {
 
           {/* Right Side */}
           <div className="flex items-center gap-4 sm:gap-6 lg:gap-10">
-            <Link
-              to="/registration" // <-- Sign In / Sign Up page route
-              className="hidden sm:flex items-center gap-2 text-sm md:text-base font-semibold text-primary relative after:absolute after:h-full after:w-[1px] after:bg-primary/40 after:top-0 after:-right-3 lg:after:-right-5"
-            >
-              <TbUser className="text-lg md:text-xl text-brand" />
-              <span className="hidden lg:block">Sign Up/Sign In</span>
-            </Link>
+            {user ? (
+              <Link
+                to="/profile"
+                className="flex items-center gap-2 text-sm md:text-base font-semibold text-primary"
+              >
+                <TbUser className="text-lg md:text-xl text-brand" />
+                <span className="hidden lg:block">{user.username}</span>
+              </Link>
+            ) : (
+              <Link
+                to="/auth"
+                className="hidden sm:flex items-center gap-2 text-sm md:text-base font-semibold text-primary relative after:absolute after:h-full after:w-[1px] after:bg-primary/40 after:top-0 after:-right-3 lg:after:-right-5"
+              >
+                <TbUser className="text-lg md:text-xl text-brand" />
+                <span className="hidden lg:block">Sign Up/Sign In</span>
+              </Link>
+            )}
 
-            <Link to="/cart" className="flex items-center gap-1 text-base md:text-lg font-semibold text-primary">
+            <Link
+              to="/cart"
+              className="flex items-center gap-1 text-base md:text-lg font-semibold text-primary"
+            >
               <CiShoppingCart className="text-xl md:text-2xl text-brand" />
               <span className="hidden lg:block">Cart</span>
             </Link>
@@ -95,82 +120,104 @@ const Navbar = () => {
         <div className="md:hidden px-4 mt-3">
           <div className="flex items-center bg-[#F3F9FB] px-3 py-2 rounded-xl">
             <FiSearch />
-            <input className="bg-transparent outline-none ml-2 w-full" placeholder="Search..." />
+            <input
+              className="bg-transparent outline-none ml-2 w-full"
+              placeholder="Search..."
+            />
           </div>
         </div>
       </nav>
 
-      {/* DESKTOP_MENU */}
+      {/* DESKTOP CATEGORY BAR  */}
       <div className="border-b border-secondary">
-        <div className="container hidden md:flex gap-4 px-4 py-5 text-base font-semibold">
-          {categories.map((item, index) => (
-            <div key={index} className="relative group">
-              <button className="lg:px-4 lg:py-2 md:p-1 rounded-full hover:bg-brand flex items-center gap-2 text-[15px]">
-                {item.title}
-                {item.Children && <CgChevronDown className="transition group-hover:rotate-180" />}
-              </button>
+        <div className="container hidden md:flex gap-4 px-4 py-5 text-base font-semibold flex-wrap">
+          {/* Home Button */}
+          <Link
+            to="/"
+            className="lg:px-4 lg:py-2 md:p-1 rounded-full hover:bg-brand hover:text-white text-[15px] capitalize transition-colors duration-200"
+          >
+            Home
+          </Link>
 
-              {item.Children && (
-                <ul className="absolute top-full left-0 bg-white shadow-lg rounded-xl w-52 mt-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  {item.Children.map((child, i) => (
-                    <li key={i}>
-                      <Link to="#" className="block rounded-xl px-4 py-2 hover:bg-gray-100">
-                        {child.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            categoriesData?.slice(0, 10)?.map((item, index) => (
+              <Link
+                key={index}
+                to={`/shop?category=${item}`}
+                className="lg:px-4 lg:py-2 md:p-1 rounded-full hover:bg-brand hover:text-white text-[15px] capitalize transition-colors duration-200"
+              >
+                {item}
+              </Link>
+            ))
+          )}
         </div>
       </div>
 
-      {/* MOBILE_SIDEBAR */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 bg-black/40 z-50">
-          <div ref={sidebarRef} className="w-4/5 sm:w-3/5 bg-white h-full p-4">
-            <div className="flex justify-between mb-4">
-              <h2 className="font-bold">Menu</h2>
-              <button onClick={() => setSidebarOpen(false)}>✕</button>
-            </div>
+      {/* MOBILE SIDEBAR */}
+      <div
+        className={`fixed inset-0 z-50 transition-all duration-300 ${
+          sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div
+          className={`fixed inset-0 bg-black/40 transition-opacity duration-300 ${
+            sidebarOpen ? "opacity-100" : "opacity-0"
+          }`}
+        ></div>
 
-            <ul className="space-y-3">
-              {categories.map((item, index) => (
-                <li key={index}>
-                  <div className="flex justify-between items-center">
-                    <Link to="#" className="flex-1">{item.title}</Link>
-                    {item.Children && (
-                      <button
-                        onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                        className="ml-2"
-                      >
-                        <FaChevronRight className={`transition-transform duration-300 ${activeIndex === index ? "rotate-90" : ""}`} />
-                      </button>
-                    )}
-                  </div>
-                  {item.Children && (
-                    <ul className={`pl-4 mt-2 space-y-1 overflow-hidden transition-all duration-300 ${activeIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
-                      {item.Children.map((child, i) => (
-                        <li key={i}>
-                          <Link to="#" className="text-sm text-gray-600">{child.title}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
+        <div
+          ref={sidebarRef}
+          className={`fixed top-0 left-0 h-full bg-white w-4/5 sm:w-3/5 p-4 transition-transform duration-300 ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex justify-between mb-4">
+            <h2 className="font-bold text-lg">Menu</h2>
+            <button
+              className="text-xl font-bold"
+              onClick={() => setSidebarOpen(false)}
+            >
+              ✕
+            </button>
+          </div>
 
-            {/* Sign In */}
-            <div className="mt-15 py-8 border-t border-gray-400">
-              <Link to="/registration" className="sm:flex items-center gap-2 text-lg font-bold text-primary">
+          <ul className="space-y-3 uppercase hover:bg-gray-400 hover:rounded-2xl">
+            {categoriesData?.slice(0, 10)?.map((item, index) => (
+              <li key={index}>
+                <Link
+                  to={`/shop?category=${item}`}
+                  onClick={() => setSidebarOpen(false)}
+                  className="block text-black hover:text-brand transition-colors duration-200"
+                >
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Mobile Sign In / Log Out */}
+          <div className="mt-10 py-6 border-t border-gray-400">
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="w-full text-left flex items-center gap-2 text-lg font-bold text-primary hover:text-brand transition-colors duration-200"
+              >
+                Log Out
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setSidebarOpen(false)}
+                className="flex items-center gap-2 text-lg font-bold text-primary hover:text-brand transition-colors duration-200"
+              >
                 Sign Up/Sign In
               </Link>
-            </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };
