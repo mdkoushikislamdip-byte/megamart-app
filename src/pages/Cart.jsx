@@ -55,7 +55,7 @@ const Cart = () => {
   // WhatsApp link for single item
   const handleBuyNow = (item) => {
     const message = `Hello! I want to buy:\n${item.name}\nQuantity: ${item.qty}\nTotal: $${item.discountedTotal}`;
-    const phone = "8801816795593"; // Replace with your number
+    const phone = "8801793544642";
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
@@ -67,7 +67,7 @@ const Cart = () => {
       message += `\n${item.name} - Qty: ${item.qty} - Total: $${item.discountedTotal}`;
     });
     message += `\n\nTotal Price: $${totalPrice}`;
-    const phone = "8801816795593"; // Replace with your number
+    const phone = "8801793544642"; // 
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };

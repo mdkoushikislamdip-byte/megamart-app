@@ -194,7 +194,7 @@ const ProductDetails = () => {
             </button>
 
             <a
-              href="https://wa.me/8801816795593"
+              href="https://wa.me/8801793544642"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-green-50 text-green-800 rounded-xl hover:bg-green-100 shadow-sm hover:shadow-md"
